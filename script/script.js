@@ -16,21 +16,12 @@ const createElementForm = (elem, arg) => {
 	}
 	if (elem === 'select') {
 		const arr = [];
-		arg.technologies.forEach(item => {
-			arr.push(`<option>${item}</option>`);
-		});
+		arg.technologies.forEach(item => arr.push(`<option>${item}</option>`));
 		element.innerHTML = arr.join(' ');
-		// for (let key in arg) {
-		// 	if (key !== 'technologies' && key !== 'type') {
-		// 		element.setAttribute(`${key}`, `${arg[key]}`);
-		// 	}
-		// }
 	}
     if (elem === 'input') {
         for (let key in arg) {
-            if (key === 'mask') {
-                element.setAttribute('placeholder', `${arg[key]}`);
-            }
+            if (key === 'mask') element.setAttribute('placeholder', `${arg[key]}`);
             if (arg[key] === 'technology') {
 				createElementForm('select', arg);
 				return;	
@@ -38,9 +29,7 @@ const createElementForm = (elem, arg) => {
             element.setAttribute(`${key}`, `${arg[key]}`);
         }
     } 
-    if (elem === 'label' || elem === 'p' || elem === 'h1' || elem === 'button') {
-        element.textContent = `${arg}`;
-    }
+    if (elem === 'label' || elem === 'p' || elem === 'h1' || elem === 'button') element.textContent = `${arg}`;
     if (elem === 'a') {
         if (!arg.ref || !arg.text) return;
         element.setAttribute('href', `${arg.ref}`);
