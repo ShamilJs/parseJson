@@ -107,16 +107,20 @@ const getData = () => {
 };
 
 inputFile.addEventListener('input', () => {
+	document.querySelector('.input__file-button-text').textContent = inputFile.files[0].name;
     getData()
     .then(initFunction)
     .catch(errorFunction);
 });
 
 resetFile.addEventListener('click', () => { 
+	document.querySelector('.input__file-button-text').textContent = 'Выберите файл';
     arrData = [];
     container.textContent = '';
     inputFile.value = '';
 });
+
+
 
 
 

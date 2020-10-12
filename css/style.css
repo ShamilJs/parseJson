@@ -18,7 +18,8 @@
 	display: flex;
 	height: 100%;
 	width: 1300px;
-	justify-content: space-between;
+  justify-content: space-between;
+  
 }
 .container{
 	width: 1000px;
@@ -28,7 +29,7 @@
 	border-radius: 10px; */
 	display: flex;
 	justify-content: center;
-	align-items: center;
+	align-items: flex-start;
 }
 .panel{
 	padding: 10px;
