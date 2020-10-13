@@ -60,7 +60,7 @@ const createReferences = references => {
 };
 
 const initFunction = request => {
-    const data = JSON.parse(request.responseText);
+    const data = JSON.parse(request);
     arrData = data;
     createElementForm('form', arrData.name);
     const forms = document.querySelectorAll('form');
@@ -73,33 +73,13 @@ const initFunction = request => {
     if (arrData.buttons) arrData.buttons.forEach(item => createElementForm('button', item.text));
 };
 
-const errorFunction = () => {
-    console.log('error');
-};
-
-const getData = () => {
-    return new Promise((resolve, reject) => {
-        const request  = new XMLHttpRequest();
-        request.open('GET', `./json/${inputFile.files[0].name}`);
-        request.addEventListener('readystatechange', event => {
-            if (request.readyState !== 4) {
-                return;
-            }
-            if (request.status === 200) {
-                resolve(request);
-            } else {
-                reject(request.statusText);
-            }
-        });
-        request.send();
-    });
-};
-
-inputFile.addEventListener('input', () => {
-	document.querySelector('.input__file-button-text').textContent = inputFile.files[0].name;
-    getData()
-    .then(initFunction)
-    .catch(errorFunction);
+inputFile.addEventListener('change', () => {
+  let file = inputFile.files[0];
+  let reader = new FileReader();
+  reader.readAsText(file);
+  reader.addEventListener('load', () => initFunction(reader.result));
+  reader.addEventListener('error', () => console.log(reader.error));
+  document.querySelector('.input__file-button-text').textContent = inputFile.files[0].name;
 });
 
 resetFile.addEventListener('click', () => { 
