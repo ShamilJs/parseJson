@@ -21,7 +21,10 @@ const createElementForm = (elem, arg) => {
 	}
     if (elem === 'input') {
         for (let key in arg) {
-            if (key === 'mask') element.setAttribute('placeholder', `${arg[key]}`);
+             if (key === 'mask') {
+		element.setAttribute('placeholder', `${arg[key]}`);
+		element.name = 'mask';
+	     }
             if (arg[key] === 'technology') {
 				createElementForm('select', arg);
 				return;	
@@ -71,6 +74,14 @@ const initFunction = request => {
     if (arrData.fields) createFields(arrData.fields);
     if (arrData.references) createReferences(arrData.references);
     if (arrData.buttons) arrData.buttons.forEach(item => createElementForm('button', item.text));
+	const inputMask = document.querySelectorAll('input[name="mask"]');
+	inputMask.forEach((item, i)  => {
+		item.addEventListener('click', () => {
+			item.id = `${i}`;
+			item.type = "text";
+			$(`#${item.id}`).mask(`${item.placeholder}`);
+		});
+	});
 };
 
 inputFile.addEventListener('change', () => {
