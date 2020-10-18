@@ -16,16 +16,24 @@ const createElementForm = (elem, arg) => {
 	}
 	if (elem === 'select') {
 		const arr = [];
-		arg.technologies.forEach(item => arr.push(`<option>${item}</option>`));
+		if (arg.technologies) arg.technologies.forEach(item => arr.push(`<option>${item}</option>`));
+		if (arg.colors) {
+			arg.colors.forEach(item => arr.push(`<option style="background-color:${item}">${item}</option>`));
+			arr.push(`<option>Other</option>`);
+		}
 		element.innerHTML = arr.join(' ');
 	}
     if (elem === 'input') {
         for (let key in arg) {
-             if (key === 'mask') {
-		element.setAttribute('placeholder', `${arg[key]}`);
-		element.name = 'mask';
-	     }
+            if (key === 'mask') {
+				element.setAttribute('placeholder', `${arg[key]}`);
+				element.name = 'mask';
+	     	}
             if (arg[key] === 'technology') {
+				createElementForm('select', arg);
+				return;	
+			}
+			if (arg[key] === 'color') {
 				createElementForm('select', arg);
 				return;	
             }
@@ -82,6 +90,16 @@ const initFunction = request => {
 			$(`#${item.id}`).mask(`${item.placeholder}`);
 		});
 	});
+
+	const select = document.querySelector('select');
+	const label = document.querySelector('label');
+	if (select.value[0] === '#' && label) {
+		const input = document.createElement('input');
+		input.type = 'color';
+		input.value = select.value;
+		label.append(input);
+		select.addEventListener('change', () => input.value = select.value);
+	}
 };
 
 inputFile.addEventListener('change', () => {
